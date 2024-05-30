@@ -10,6 +10,7 @@ class BinaryGrayImage
 public:
     int width;
     int height;
+    float th; // threshold
 
 public:
     BinaryGrayImage(){};
@@ -18,7 +19,11 @@ public:
 
     BinaryGrayImage(int width, int height);
 
+    BinaryGrayImage(int width, int height, float tth);
+
     BinaryGrayImage(IntMatrix &tmatrix);
+
+    void Load(GrayscaleImage &img, bool adaptativeThreshold = true, float manualThreshold = 128);
 
     int operator()(int x_width, int y_height) const;
 
