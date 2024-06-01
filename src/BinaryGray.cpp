@@ -91,3 +91,14 @@ int &BinaryGrayImage::operator()(int x_width, int y_height)
     }
     return matrix[y_height][x_width];
 }
+
+void BinaryGrayImage::inverse()
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y) = !(*this)(x, y);
+        }
+    }
+}

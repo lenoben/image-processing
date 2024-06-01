@@ -28,6 +28,8 @@ public:
     int operator()(int x_width, int y_height) const;
 
     int &operator()(int x_width, int y_height);
+
+    void inverse();
 };
 
 #endif
