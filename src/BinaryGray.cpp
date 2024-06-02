@@ -102,3 +102,26 @@ void BinaryGrayImage::inverse()
         }
     }
 }
+
+void BinaryGrayImage::exportimg(GrayscaleImage &img)
+{
+    img = GrayscaleImage(width, height);
+
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            img(x, y) = (*this)(x, y) ? 255 : 0;
+        }
+    }
+}
+
+IntMatrix BinaryGrayImage::getMatrix() const
+{
+    return matrix;
+}
+
+IntMatrix &BinaryGrayImage::getMatrix()
+{
+    return matrix;
+}

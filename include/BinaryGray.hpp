@@ -30,6 +30,12 @@ public:
     int &operator()(int x_width, int y_height);
 
     void inverse();
+
+    void exportimg(GrayscaleImage &img);
+
+    IntMatrix getMatrix() const;
+
+    IntMatrix &getMatrix();
 };
 
 #endif
