@@ -33,6 +33,8 @@ public:
 
     void exportimg(GrayscaleImage &img);
 
+    void exportimg(ColorImage &img);
+
     IntMatrix getMatrix() const;
 
     IntMatrix &getMatrix();

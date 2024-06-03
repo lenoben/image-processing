@@ -116,6 +116,20 @@ void BinaryGrayImage::exportimg(GrayscaleImage &img)
     }
 }
 
+void BinaryGrayImage::exportimg(ColorImage &img)
+{
+    img = ColorImage(width, height);
+
+    for (int y = 0; y < height; y++)
+    {
+        RGBA nil{0, 0, 0, 255};
+        for (int x = 0; x < width; x++)
+        {
+            img(x, y) = (*this)(x, y) ? img(x, y) : nil;
+        }
+    }
+}
+
 IntMatrix BinaryGrayImage::getMatrix() const
 {
     return matrix;
