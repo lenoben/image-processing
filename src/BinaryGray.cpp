@@ -139,3 +139,69 @@ IntMatrix &BinaryGrayImage::getMatrix()
 {
     return matrix;
 }
+
+void BinaryGrayImage::operator|(const BinaryGrayImage &other)
+{
+    /*OR
+    1 1 = 1
+    1 0 = 1
+    0 1 = 1
+    0 0 = 0
+    */
+    if (width != other.width || height != other.height)
+    {
+        throw std::runtime_error("operator | dimension not equal");
+        return;
+    }
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y) = (*this)(x, y) | other(x, y);
+        }
+    }
+}
+
+void BinaryGrayImage::operator&(const BinaryGrayImage &other)
+{
+    /*AND
+    1 1 = 1
+    1 0 = 0
+    0 1 = 0
+    0 0 = 0
+    */
+    if (width != other.width || height != other.height)
+    {
+        throw std::runtime_error("operator & dimension not equal");
+        return;
+    }
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y) = (*this)(x, y) & other(x, y);
+        }
+    }
+}
+
+void BinaryGrayImage::operator^(const BinaryGrayImage &other)
+{
+    /*XOR
+    1 1 = 0
+    1 0 = 1
+    0 1 = 1
+    0 0 = 0
+    */
+    if (width != other.width || height != other.height)
+    {
+        throw std::runtime_error("operator xor dimension not equal");
+        return;
+    }
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y) = (*this)(x, y) ^ other(x, y);
+        }
+    }
+}

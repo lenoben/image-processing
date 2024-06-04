@@ -38,6 +38,12 @@ public:
     IntMatrix getMatrix() const;
 
     IntMatrix &getMatrix();
+
+    void operator|(const BinaryGrayImage &other);
+
+    void operator&(const BinaryGrayImage &other);
+
+    void operator^(const BinaryGrayImage &other);
 };
 
 #endif
