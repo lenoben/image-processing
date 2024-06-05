@@ -3,6 +3,11 @@
 
 #include "Image.h"
 #include <vector>
+#include <tuple>
+#include <stdexcept>
+#include <string>
+#include <iostream>
+#include <cmath>
 #include <stdio.h>
 #include <math.h>
 
@@ -21,5 +26,15 @@ struct pixel
 
 typedef std::vector<pixel> PixelArray;
 typedef std::vector<PixelArray> PixelMatrix;
+
+struct hsv
+{
+    double h;
+    double s;
+    double v;
+};
+
+typedef std::vector<hsv> HsvArray;
+typedef std::vector<HsvArray> HsvMatrix;
 
 #endif
