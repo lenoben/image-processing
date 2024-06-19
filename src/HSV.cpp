@@ -95,6 +95,33 @@ HSV::HSV(){};
 
 HSV::HSV(int width, int height) : width(width), height(height), matrix(HsvMatrix(height, HsvArray(width))){};
 
+HSV::HSV(const HSV &other) : width(other.width), height(other.height), matrix(other.matrix){};
+
+HSV::HSV(ColorImage &img) : width(img.GetWidth()), height(img.GetHeight())
+{
+    matrix = HsvMatrix(height, HsvArray(width));
+    for (int x = 0; x < img.GetWidth(); x++)
+    {
+        for (int y = 0; y < img.GetHeight(); y++)
+        {
+            std::tie((*this)(x, y).h, (*this)(x, y).s, (*this)(x, y).v) = _RGBtoHSV_(img(x, y).r, img(x, y).g, img(x, y).b);
+        }
+    }
+};
+
+void HSV::toRGB(ColorImage &image)
+{
+    ColorImage img(width, height);
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            std::tie(img(x, y).r, img(x, y).g, img(x, y).b) = _HSVtoRGB_((*this)(x, y).h, (*this)(x, y).s, (*this)(x, y).v);
+        }
+    }
+    image = img;
+}
+
 hsv HSV::operator()(int x_width, int y_height) const
 {
     return matrix[y_height][x_width];

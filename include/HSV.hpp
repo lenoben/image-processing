@@ -18,6 +18,12 @@ public:
 
     HSV(int width, int height);
 
+    HSV(const HSV &other);
+
+    HSV(ColorImage &img);
+
+    void toRGB(ColorImage &image);
+
     hsv operator()(int x_width, int y_height) const;
 
     hsv &operator()(int x_width, int y_height);
