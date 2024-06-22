@@ -27,4 +27,10 @@ public:
     hsv operator()(int x_width, int y_height) const;
 
     hsv &operator()(int x_width, int y_height);
+    
+    void rotateH(float angle);
+
+    void rotateS(float angle);
+
+    void rotateV(float angle);
 };
