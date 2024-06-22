@@ -33,4 +33,6 @@ public:
     void rotateS(float angle);
 
     void rotateV(float angle);
+
+    void applyThreshold(BinaryGrayImage &img, double hmax, double hmin, double smax, double smin, double vmax, double vim);
 };

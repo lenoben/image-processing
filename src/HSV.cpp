@@ -164,3 +164,24 @@ void HSV::rotateV(float angle)
         }
     }
 }
+
+void HSV::applyThreshold(BinaryGrayImage &img, double hmax, double hmin, double smax, double smin, double vmax, double vmin)
+{
+    BinaryGrayImage out(width, height);
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            if ((*this)(x, y).h >= hmin && (*this)(x, y).s >= smin && (*this)(x, y).v >= vmin &&
+                (*this)(x, y).h <= hmax && (*this)(x, y).s <= smax && (*this)(x, y).v <= vmax)
+            {
+                out(x, y) = 1;
+            }
+            else
+            {
+                out(x, y) = 0;
+            }
+        }
+    }
+    img = out;
+}
