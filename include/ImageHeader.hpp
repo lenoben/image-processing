@@ -10,6 +10,11 @@
 #include <cmath>
 #include <stdio.h>
 #include <math.h>
+#include <algorithm>
+#include <utility>
+#include <stack>
+#include <unordered_set>
+#include <unordered_map>
 
 typedef std::vector<double> Array;
 typedef std::vector<Array> Matrix;
@@ -36,5 +41,16 @@ struct hsv
 
 typedef std::vector<hsv> HsvArray;
 typedef std::vector<HsvArray> HsvMatrix;
+
+struct cmyk
+{
+    double c;
+    double m;
+    double y;
+    double k;
+};
+
+typedef std::vector<cmyk> CmykArray;
+typedef std::vector<CmykArray> CmykMatrix;
 
 #endif
