@@ -35,3 +35,85 @@ GrayscaleImage meanBlur(const GrayscaleImage &img)
 
     return out;
 }
+
+Matrix getGaussianKernel(int size, double sigma)
+{
+    Matrix kernel(size, Array(size)); // 5x5
+    double sum = 0.0;
+    // due to gaussian kernel been symmetrical
+    int radius = (size - 1) / 2;
+
+    /*
+    Gaussian formula = 1/(2* pi * sigma* sigma) * exp (- (x *x + y *y)/(2 * sigma * sigma))
+    */
+    double constant1 = 1 / (2 * M_PI * sigma * sigma);
+    double constant2 = 2 * sigma * sigma;
+
+    for (int x = -radius; x <= radius; x++)
+    {
+        for (int y = -radius; y <= radius; y++)
+        {
+            kernel[x + radius][y + radius] = constant1 * exp(-(x * x + y * y) / constant2);
+            sum += kernel[x + radius][y + radius];
+        }
+    }
+
+    // normalize kernel
+    for (size_t i = 0; i < size; i++)
+    {
+        for (size_t j = 0; j < size; j++)
+        {
+            kernel[i][j] /= sum;
+        }
+    }
+    return kernel;
+}
+
+void applyKernel(const GrayscaleImage &image, Matrix &mkernel, GrayscaleImage &output)
+{
+    int radius = (mkernel.size() - 1) / 2;
+
+    for (int x = 0; x < image.GetWidth(); x++)
+    {
+        for (int y = 0; y < radius; y++)
+        {
+
+            output(x, y) = image(x, y);
+        }
+        output(x, image.GetHeight() - 1) = image(x, image.GetHeight() - 1);
+    }
+    for (int y = 0; y < image.GetHeight(); y++)
+    {
+        for (int x = 0; x < radius; x++)
+        {
+
+            output(x, y) = image(x, y);
+        }
+        output(image.GetWidth() - 1, y) = image(image.GetWidth() - 1, y);
+    }
+
+    for (int x = 0 + radius; x < image.GetWidth() - radius; x++)
+    {
+        for (int y = 0 + radius; y < image.GetHeight() - radius; y++)
+        {
+
+            // kernel
+            for (int xk = 0; xk < mkernel.size(); xk++)
+            {
+                for (int yk = 0; yk < mkernel.size(); yk++)
+                {
+                    output(x, y) += mkernel[xk][yk] * image(x - radius + xk, y - radius + yk);
+                }
+            }
+        }
+    }
+}
+
+GrayscaleImage applyGaussian(const GrayscaleImage &image, int size, double sigma)
+{
+    GrayscaleImage output(image.GetWidth(), image.GetHeight());
+    Matrix mkernel = getGaussianKernel(size, sigma);
+    applyKernel(image, mkernel, output);
+
+    return output;
+}
