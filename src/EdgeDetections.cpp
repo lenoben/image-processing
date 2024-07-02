@@ -140,3 +140,60 @@ GrayscaleImage robertsCross(const GrayscaleImage &image)
     }
     return result;
 }
+
+Gradient prewitt(const GrayscaleImage &img)
+{
+    const int horizontalPrewittKernel[3][3] = {
+        {-1, 0, 1},
+        {-1, 0, 1},
+        {-1, 0, 1}};
+
+    const int verticalPrewittKernel[3][3] = {
+        {-1, -1, -1},
+        {0, 0, 0},
+        {1, 1, 1}};
+    int width = img.GetWidth();
+    int height = img.GetHeight();
+    GrayscaleImage result(width, height);
+    GrayscaleImage direction(width, height);
+
+    // Iterate over each pixel in the image (excluding the border pixels)
+    for (int x = 1; x < width - 1; ++x)
+    {
+        for (int y = 1; y < height - 1; ++y)
+        {
+            // Apply the horizontal Prewitt kernel
+            double sumX = 0.0;
+            for (int xk = 0; xk < 3; ++xk)
+            {
+                for (int yk = 0; yk < 3; ++yk)
+                {
+                    sumX += horizontalPrewittKernel[xk][yk] * img(x - 1 + xk, y - 1 + yk);
+                }
+            }
+
+            // Apply the vertical Prewitt kernel
+            double sumY = 0.0;
+            for (int xk = 0; xk < 3; ++xk)
+            {
+                for (int yk = 0; yk < 3; ++yk)
+                {
+                    sumY += verticalPrewittKernel[xk][yk] * img(x - 1 + xk, y - 1 + yk);
+                }
+            }
+
+            // Compute the magnitude of the gradient
+            int magnitude = std::clamp(static_cast<int>(std::sqrt(sumX * sumX + sumY * sumY)), 0, 255);
+            // compute direction in degress 0-360
+            float angle = std::atan2(sumY, sumX) * 180 / M_PI;
+            if (angle < 0)
+                angle += 360;
+            direction(x, y) = static_cast<int>(angle);
+
+            // Set the resulting pixel value
+            result(x, y) = magnitude;
+        }
+    }
+
+    return {result, direction};
+}
