@@ -117,3 +117,26 @@ GrayscaleImage applyGaussian(const GrayscaleImage &image, int size, double sigma
 
     return output;
 }
+
+GrayscaleImage robertsCross(const GrayscaleImage &image)
+{
+    int width = image.GetWidth();
+    int height = image.GetHeight();
+    GrayscaleImage result(width, height);
+
+    // Iterate over each pixel in the image (excluding the border pixels)
+    for (int y = 0; y < height - 1; ++y)
+    {
+        for (int x = 0; x < width - 1; ++x)
+        {
+            // Apply the Robert's Cross kernel
+            int gx = image(x, y) - image(x + 1, y + 1);
+            int gy = image(x + 1, y) - image(x, y + 1);
+            // Calculate the gradient magnitude
+            int gradientMagnitude = std::abs(gx) + std::abs(gy);
+            // Set the resulting pixel value
+            result(x, y) = std::clamp(gradientMagnitude, 0, 255);
+        }
+    }
+    return result;
+}
