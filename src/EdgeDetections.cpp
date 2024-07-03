@@ -197,3 +197,34 @@ Gradient prewitt(const GrayscaleImage &img)
 
     return {result, direction};
 }
+
+GrayscaleImage simpleGaussianBlur(const GrayscaleImage &image)
+{
+    // Gaussian kernel (3x3) with sigma=1.0
+    float kernel[3][3] = {
+        {1 / 16.0f, 2 / 16.0f, 1 / 16.0f},
+        {2 / 16.0f, 4 / 16.0f, 2 / 16.0f},
+        {1 / 16.0f, 2 / 16.0f, 1 / 16.0f}};
+
+    int width = image.GetWidth();
+    int height = image.GetHeight();
+    GrayscaleImage result(width, height);
+
+    for (int y = 1; y < height - 1; ++y)
+    {
+        for (int x = 1; x < width - 1; ++x)
+        {
+            float sum = 0.0f;
+            for (int ky = -1; ky <= 1; ++ky)
+            {
+                for (int kx = -1; kx <= 1; ++kx)
+                {
+                    sum += image(x + kx, y + ky) * kernel[ky + 1][kx + 1];
+                }
+            }
+            result(x, y) = std::clamp(static_cast<int>(sum), 0, 255);
+        }
+    }
+
+    return result;
+}

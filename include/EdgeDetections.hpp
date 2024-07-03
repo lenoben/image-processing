@@ -19,3 +19,5 @@ GrayscaleImage applyGaussian(const GrayscaleImage &image, int size, double sigma
 GrayscaleImage robertsCross(const GrayscaleImage &image);
 
 Gradient prewitt(const GrayscaleImage &img);
+
+GrayscaleImage simpleGaussianBlur(const GrayscaleImage &image);
