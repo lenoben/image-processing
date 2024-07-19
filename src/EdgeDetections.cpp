@@ -228,3 +228,33 @@ GrayscaleImage simpleGaussianBlur(const GrayscaleImage &image)
 
     return result;
 }
+
+Gradient sobel(const GrayscaleImage &image)
+{
+    int width = image.GetWidth();
+    int height = image.GetHeight();
+    // the sobel image
+    GrayscaleImage magnitude(width, height);
+    GrayscaleImage direction(width, height);
+
+    for (int y = 1; y < height - 1; ++y)
+    {
+        for (int x = 1; x < width - 1; ++x)
+        {
+            int gx = image(x + 1, y - 1) + 2 * image(x + 1, y) + image(x + 1, y + 1) - image(x - 1, y - 1) - 2 * image(x - 1, y) - image(x - 1, y + 1);
+
+            int gy = image(x - 1, y - 1) + 2 * image(x, y - 1) + image(x + 1, y - 1) - image(x - 1, y + 1) - 2 * image(x, y + 1) - image(x + 1, y + 1);
+
+            int mag = std::sqrt(gx * gx + gy * gy);
+            magnitude(x, y) = std::clamp(mag, 0, 255);
+
+            // Compute gradient direction in degrees (0-360)
+            float angle = std::atan2(gy, gx) * 180 / M_PI;
+            if (angle < 0)
+                angle += 360;
+            direction(x, y) = static_cast<int>(angle);
+        }
+    }
+
+    return {magnitude, direction};
+}

@@ -21,3 +21,5 @@ GrayscaleImage robertsCross(const GrayscaleImage &image);
 Gradient prewitt(const GrayscaleImage &img);
 
 GrayscaleImage simpleGaussianBlur(const GrayscaleImage &image);
+
+Gradient sobel(const GrayscaleImage &image);
