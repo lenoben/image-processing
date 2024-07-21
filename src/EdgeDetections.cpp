@@ -258,3 +258,54 @@ Gradient sobel(const GrayscaleImage &image)
 
     return {magnitude, direction};
 }
+
+GrayscaleImage nonMaximumSuppression(const GrayscaleImage &magnitude, const GrayscaleImage &direction)
+{
+    int width = magnitude.GetWidth();
+    int height = magnitude.GetHeight();
+    GrayscaleImage result(width, height);
+
+    for (int y = 1; y < height - 1; ++y)
+    {
+        for (int x = 1; x < width - 1; ++x)
+        {
+            int angle = direction(x, y) % 180; // Angle in degrees (0-180)
+            int mag = magnitude(x, y);
+            int q = 255, r = 255; // Values to compare with the current pixel
+
+            // Determine the two pixels to compare based on the gradient direction
+            if (angle < 22.5 || angle >= 157.5)
+            { // 0 degrees
+                q = magnitude(x + 1, y);
+                r = magnitude(x - 1, y);
+            }
+            else if (angle < 67.5)
+            { // 45 degrees
+                q = magnitude(x + 1, y + 1);
+                r = magnitude(x - 1, y - 1);
+            }
+            else if (angle < 112.5)
+            { // 90 degrees
+                q = magnitude(x, y + 1);
+                r = magnitude(x, y - 1);
+            }
+            else if (angle < 157.5)
+            { // 135 degrees
+                q = magnitude(x - 1, y + 1);
+                r = magnitude(x + 1, y - 1);
+            }
+
+            // Suppress non-maximal pixels
+            if (mag >= q && mag >= r)
+            {
+                result(x, y) = mag;
+            }
+            else
+            {
+                result(x, y) = 0;
+            }
+        }
+    }
+
+    return result;
+}
