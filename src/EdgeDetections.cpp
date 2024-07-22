@@ -309,3 +309,32 @@ GrayscaleImage nonMaximumSuppression(const GrayscaleImage &magnitude, const Gray
 
     return result;
 }
+
+GrayscaleImage doubleThreshold(const GrayscaleImage &image, int lowThreshold, int highThreshold)
+{
+    int width = image.GetWidth();
+    int height = image.GetHeight();
+    GrayscaleImage result(width, height);
+
+    for (int y = 0; y < height; ++y)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            int value = image(x, y);
+            if (value >= highThreshold)
+            {
+                result(x, y) = 255; // Strong edge
+            }
+            else if (value >= lowThreshold)
+            {
+                result(x, y) = 128; // Weak edge
+            }
+            else
+            {
+                result(x, y) = 0; // Non-edge
+            }
+        }
+    }
+
+    return result;
+}
