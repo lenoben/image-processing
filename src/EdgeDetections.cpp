@@ -338,3 +338,35 @@ GrayscaleImage doubleThreshold(const GrayscaleImage &image, int lowThreshold, in
 
     return result;
 }
+
+void edgeTrackingByHysteresis(GrayscaleImage &image)
+{
+    int width = image.GetWidth();
+    int height = image.GetHeight();
+
+    for (int y = 1; y < height - 1; ++y)
+    {
+        for (int x = 1; x < width - 1; ++x)
+        {
+            if (image(x, y) == 128)
+            { // Weak edge
+                // Check 8-connected neighbors
+                bool connectedToStrongEdge = false;
+                for (int ky = -1; ky <= 1; ++ky)
+                {
+                    for (int kx = -1; kx <= 1; ++kx)
+                    {
+                        if (image(x + kx, y + ky) == 255)
+                        { // Strong edge
+                            connectedToStrongEdge = true;
+                            break;
+                        }
+                    }
+                    if (connectedToStrongEdge)
+                        break;
+                }
+                image(x, y) = connectedToStrongEdge ? 255 : 0;
+            }
+        }
+    }
+}

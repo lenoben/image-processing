@@ -27,3 +27,5 @@ Gradient sobel(const GrayscaleImage &image);
 GrayscaleImage nonMaximumSuppression(const GrayscaleImage &magnitude, const GrayscaleImage &direction);
 
 GrayscaleImage doubleThreshold(const GrayscaleImage &image, int lowThreshold, int highThreshold);
+
+void edgeTrackingByHysteresis(GrayscaleImage &image);
