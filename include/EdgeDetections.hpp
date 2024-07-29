@@ -29,3 +29,5 @@ GrayscaleImage nonMaximumSuppression(const GrayscaleImage &magnitude, const Gray
 GrayscaleImage doubleThreshold(const GrayscaleImage &image, int lowThreshold, int highThreshold);
 
 void edgeTrackingByHysteresis(GrayscaleImage &image);
+
+GrayscaleImage cannyEdgeDetection(const GrayscaleImage &image, int lowThreshold, int highThreshold);

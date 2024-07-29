@@ -370,3 +370,5 @@ void edgeTrackingByHysteresis(GrayscaleImage &image)
         }
     }
 }
+
+GrayscaleImage cannyEdgeDetection(const GrayscaleImage &image, int lowThreshold, int highThreshold);
