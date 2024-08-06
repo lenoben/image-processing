@@ -35,3 +35,19 @@ std::tuple<double, double, double> CMYK_mein::_CMYKtoRGB_(double c, double m, do
 }
 
 CMYK_mein::CMYK_mein(){};
+
+CMYK_mein::CMYK_mein(int width, int height) : height(height), width(width), matrix(CmykMatrix(height, CmykArray(width))){};
+
+CMYK_mein::CMYK_mein(ColorImage &img) : width(img.GetWidth()), height(img.GetHeight())
+{
+    matrix = CmykMatrix(height, CmykArray(width));
+    for (int x = 0; x < img.GetWidth(); x++)
+    {
+        for (int y = 0; y < img.GetHeight(); y++)
+        {
+            std::tie((*this)(x, y).c, (*this)(x, y).m, (*this)(x, y).y, (*this)(x, y).k) = _RGBtoCMYK_(img(x, y).r, img(x, y).g, img(x, y).b);
+        }
+    }
+};
+
+CMYK_mein::CMYK_mein(const CMYK_mein &other) : matrix(other.matrix), height(other.height), width(other.width){};
