@@ -51,3 +51,36 @@ CMYK_mein::CMYK_mein(ColorImage &img) : width(img.GetWidth()), height(img.GetHei
 };
 
 CMYK_mein::CMYK_mein(const CMYK_mein &other) : matrix(other.matrix), height(other.height), width(other.width){};
+
+void CMYK_mein::setC(float value)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y).c = value;
+        }
+    }
+}
+
+void CMYK_mein::setM(float value)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y).m = value;
+        }
+    }
+}
+
+void CMYK_mein::setY(float value)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y).y = value;
+        }
+    }
+}
