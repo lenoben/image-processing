@@ -52,6 +52,16 @@ CMYK_mein::CMYK_mein(ColorImage &img) : width(img.GetWidth()), height(img.GetHei
 
 CMYK_mein::CMYK_mein(const CMYK_mein &other) : matrix(other.matrix), height(other.height), width(other.width){};
 
+cmyk CMYK_mein::operator()(int x_width, int y_height) const
+{
+    return matrix[y_height][x_width];
+}
+
+cmyk &CMYK_mein::operator()(int x_width, int y_height)
+{
+    return matrix[y_height][x_width];
+}
+
 void CMYK_mein::setC(float value)
 {
     for (int x = 0; x < width; x++)
