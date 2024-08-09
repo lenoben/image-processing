@@ -52,6 +52,20 @@ CMYK_mein::CMYK_mein(ColorImage &img) : width(img.GetWidth()), height(img.GetHei
 
 CMYK_mein::CMYK_mein(const CMYK_mein &other) : matrix(other.matrix), height(other.height), width(other.width){};
 
+void CMYK_mein::toRGB(ColorImage &image)
+{
+    ColorImage img(width, height);
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            std::tie(img(x, y).r, img(x, y).g, img(x, y).b) = _CMYKtoRGB_((*this)(x, y).c, (*this)(x, y).m, (*this)(x, y).y, (*this)(x, y).k);
+        }
+    }
+
+    image = img;
+}
+
 cmyk CMYK_mein::operator()(int x_width, int y_height) const
 {
     return matrix[y_height][x_width];
