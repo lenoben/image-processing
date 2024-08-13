@@ -44,3 +44,21 @@ std::tuple<double, double, double> HSL::_RGBtoHSL_(double r, double g, double b)
 
     return std::make_tuple(h, s, l);
 }
+
+std::tuple<double, double, double> HSL::_HSLtoRGB_(double h, double s, double l)
+{
+    double r, g, b;
+    double x = (1 - std::abs(2 * l - 1)) * s;
+    double m = l - x / 2;
+    double result = fmod(h / 60, 2);
+    double y = x * (1 - std::abs(result - 1));
+    r = m + _HStoR_(h, x, y);
+    g = m + _HStoG_(h, x, y);
+    b = m + _HStoB_(h, x, y);
+
+    r = slamp(r * 255);
+    g = slamp(g * 255);
+    b = slamp(b * 255);
+
+    return std::make_tuple(r, g, b);
+}
