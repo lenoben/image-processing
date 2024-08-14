@@ -3,6 +3,10 @@
 
 HSL::HSL(){};
 
+HSL::HSL(int width, int height) : width(width), height(height), matrix(HslMatrix(height, HslArray(width))){};
+
+HSL::HSL(const HSL &other) : width(other.width), height(other.height), matrix(other.matrix){};
+
 std::tuple<double, double, double> HSL::_RGBtoHSL_(double r, double g, double b)
 {
 
