@@ -18,4 +18,8 @@ public:
     HSL(int width, int height);
 
     HSL(const HSL &other);
+
+    hsl operator()(int x_width, int y_height) const;
+
+    hsl &operator()(int x_width, int y_height);
 };
