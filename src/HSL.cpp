@@ -66,3 +66,13 @@ std::tuple<double, double, double> HSL::_HSLtoRGB_(double h, double s, double l)
 
     return std::make_tuple(r, g, b);
 }
+
+hsl HSL::operator()(int x_width, int y_height) const
+{
+    return matrix[y_height][x_width];
+}
+
+hsl &HSL::operator()(int x_width, int y_height)
+{
+    return matrix[y_height][x_width];
+}
