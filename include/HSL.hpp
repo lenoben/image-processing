@@ -22,4 +22,10 @@ public:
     hsl operator()(int x_width, int y_height) const;
 
     hsl &operator()(int x_width, int y_height);
+
+    void rotateH(float angle);
+
+    void rotateS(float angle);
+
+    void rotateL(float angle);
 };

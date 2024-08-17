@@ -76,3 +76,36 @@ hsl &HSL::operator()(int x_width, int y_height)
 {
     return matrix[y_height][x_width];
 }
+
+void HSL::rotateH(float angle)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y).h = fmod((*this)(x, y).h + angle, 360.0);
+        }
+    }
+}
+
+void HSL::rotateS(float angle)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y).s = fmod((*this)(x, y).s + angle, 360.0);
+        }
+    }
+}
+
+void HSL::rotateL(float angle)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y).l = fmod((*this)(x, y).l + angle, 360.0);
+        }
+    }
+}
