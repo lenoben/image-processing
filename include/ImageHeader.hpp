@@ -53,4 +53,24 @@ struct cmyk
 typedef std::vector<cmyk> CmykArray;
 typedef std::vector<CmykArray> CmykMatrix;
 
+struct hsi
+{
+    double h;
+    double s;
+    double i;
+};
+
+typedef std::vector<hsi> HsiArray;
+typedef std::vector<HsiArray> HsiMatrix;
+
+struct hsl
+{
+    double h;
+    double s;
+    double l;
+};
+
+typedef std::vector<hsl> HslArray;
+typedef std::vector<HslArray> HslMatrix;
+
 #endif
