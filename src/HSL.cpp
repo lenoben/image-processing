@@ -77,6 +77,32 @@ hsl &HSL::operator()(int x_width, int y_height)
     return matrix[y_height][x_width];
 }
 
+HSL::HSL(ColorImage &img) : width(img.GetWidth()), height(img.GetHeight())
+{
+    matrix = HslMatrix(height, HslArray(width));
+    for (int x = 0; x < img.GetWidth(); x++)
+    {
+        for (int y = 0; y < img.GetHeight(); y++)
+        {
+            std::tie((*this)(x, y).h, (*this)(x, y).s, (*this)(x, y).l) = _RGBtoHSL_(img(x, y).r, img(x, y).g, img(x, y).b);
+        }
+    }
+};
+
+void HSL::toRGB(ColorImage &image)
+{
+    ColorImage img(width, height);
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            std::tie(img(x, y).r, img(x, y).g, img(x, y).b) = _HSLtoRGB_((*this)(x, y).h, (*this)(x, y).s, (*this)(x, y).l);
+        }
+    }
+
+    image = img;
+}
+
 void HSL::rotateH(float angle)
 {
     for (int x = 0; x < width; x++)

@@ -23,6 +23,10 @@ public:
 
     hsl &operator()(int x_width, int y_height);
 
+    HSL(ColorImage &img);
+
+    void toRGB(ColorImage &image);
+
     void rotateH(float angle);
 
     void rotateS(float angle);
