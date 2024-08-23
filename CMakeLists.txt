@@ -55,9 +55,6 @@ add_executable(apptests ${TEST_SOURCES})
 # Link test executable with the library
 target_link_libraries(apptests PRIVATE app)
 
-# Add tests
-add_test(NAME AppTest COMMAND apptests)
-
 # Set output directory
 set_target_properties(apptests PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/out
@@ -65,3 +62,11 @@ set_target_properties(apptests PROPERTIES
 
 # Copy resources to output directory
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION ${CMAKE_SOURCE_DIR}/out/)
+
+# Add tests
+add_test(NAME AppTest COMMAND ${CMAKE_SOURCE_DIR}/out/apptests)
+
+# Change the working directory for the test to `out/`
+set_tests_properties(AppTest PROPERTIES
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/out
+)
