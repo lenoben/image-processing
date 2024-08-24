@@ -48,25 +48,30 @@ include(CPack)
 include(CTest)
 enable_testing()
 
-# Add test executable
+# Glob all test source files
 file(GLOB TEST_SOURCES ${CMAKE_SOURCE_DIR}/tests/*.cpp)
-add_executable(apptests ${TEST_SOURCES})
 
-# Link test executable with the library
-target_link_libraries(apptests PRIVATE app)
+# Create an executable for each test file
+foreach(TEST_SOURCE ${TEST_SOURCES})
+    # Get the name of the test from the file name
+    get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
 
-# Set output directory
-set_target_properties(apptests PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/out
-)
+    # Create a test executable
+    add_executable(${TEST_NAME} ${TEST_SOURCE})
 
-# Copy resources to output directory
+    # Link test executable with the library
+    target_link_libraries(${TEST_NAME} PRIVATE app)
+
+    # Set output directory for the test executable
+    set_target_properties(${TEST_NAME} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/out
+    )
+
+    # Add the test to CTest
+    add_test(NAME ${TEST_NAME} COMMAND ${CMAKE_SOURCE_DIR}/out/${TEST_NAME})
+
+endforeach()
+
+# Copy resources to the output directory
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION ${CMAKE_SOURCE_DIR}/out/)
 
-# Add tests
-add_test(NAME AppTest COMMAND ${CMAKE_SOURCE_DIR}/out/apptests)
-
-# Change the working directory for the test to `out/`
-set_tests_properties(AppTest PROPERTIES
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/out
-)
