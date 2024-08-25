@@ -63,7 +63,7 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     target_link_libraries(${TEST_NAME} PRIVATE app)
 
     # Add the test to CTest
-    add_test(NAME ${TEST_NAME} COMMAND ${CMAKE_SOURCE_DIR}/out/${TEST_NAME})
+    add_test(NAME ${TEST_NAME} COMMAND ${CMAKE_SOURCE_DIR}/build/${TEST_NAME})
 
 endforeach()
 # Copy resources to the output directory
