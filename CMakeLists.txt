@@ -20,7 +20,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 # Build library
-add_library(app ${SOURCES})
+add_library(app STATIC ${SOURCES})
 
 # Link the libraries
 target_link_libraries(app PUBLIC zlib_static png_static)
@@ -62,16 +62,10 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     # Link test executable with the library
     target_link_libraries(${TEST_NAME} PRIVATE app)
 
-    # Set output directory for the test executable
-    set_target_properties(${TEST_NAME} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/out
-    )
-
     # Add the test to CTest
     add_test(NAME ${TEST_NAME} COMMAND ${CMAKE_SOURCE_DIR}/out/${TEST_NAME})
 
 endforeach()
-
 # Copy resources to the output directory
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION ${CMAKE_SOURCE_DIR}/out/)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/ DESTINATION ${CMAKE_SOURCE_DIR}/build/)
 

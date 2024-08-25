@@ -15,6 +15,7 @@ int main()
 
     bimg.exportimg(gimg);
     gimg.Save("adaptative_lena.png");
+    std::cout << "dimension" << std::endl;
 
     return 0;
 }

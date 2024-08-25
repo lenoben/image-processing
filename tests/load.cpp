@@ -10,6 +10,7 @@ int main()
     cimg.Load("lena.png");
     assert(gimg.GetHeight() > 0);
     assert(cimg.GetWidth() > 0);
+    std::cout << "Load" << std::endl;
 
     return 0;
 }
