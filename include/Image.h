@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <vector>
-#include "../png/png.h"
+#include "png/png.h"
 #include <iostream>
 #include <string>
 #include <algorithm>

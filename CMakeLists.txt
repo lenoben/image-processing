@@ -6,12 +6,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add zlib and libpng subdirectories
-add_subdirectory(zlib/)
-add_subdirectory(png/)
+add_subdirectory(include/zlib/)
+add_subdirectory(include/png/)
 
 # Include directories for zlib and libpng
-include_directories(zlib/)
-include_directories(png/)
+include_directories(include/zlib/)
+include_directories(include/png/)
 
 # Add include directory
 include_directories(${CMAKE_SOURCE_DIR}/include)
