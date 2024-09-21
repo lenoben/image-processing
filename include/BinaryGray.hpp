@@ -3,6 +3,8 @@
 
 #include "ImageHeader.hpp"
 
+bool customlogic(bool x, bool y);
+
 class BinaryGrayImage
 {
     IntMatrix matrix;
@@ -13,7 +15,7 @@ public:
     float th; // threshold
 
 public:
-    BinaryGrayImage(){};
+    BinaryGrayImage() {};
 
     BinaryGrayImage(const BinaryGrayImage &other);
 
@@ -34,6 +36,14 @@ public:
     void exportimg(GrayscaleImage &img);
 
     void exportimg(ColorImage &img);
+
+    void operator|(const BinaryGrayImage &other);
+
+    void operator&(const BinaryGrayImage &other);
+
+    void operator^(const BinaryGrayImage &other);
+
+    BinaryGrayImage operator-(const BinaryGrayImage &other);
 
     IntMatrix getMatrix() const;
 
