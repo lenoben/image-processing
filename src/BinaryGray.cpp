@@ -1,10 +1,10 @@
 #include "BinaryGray.hpp"
 
-BinaryGrayImage::BinaryGrayImage(const BinaryGrayImage &other) : matrix(other.matrix), width(other.width), height(other.height), th(other.th){};
+BinaryGrayImage::BinaryGrayImage(const BinaryGrayImage &other) : matrix(other.matrix), width(other.width), height(other.height), th(other.th) {};
 
-BinaryGrayImage::BinaryGrayImage(int width, int height) : height(height), width(width), th(128.0), matrix(IntMatrix(height, IntArray(width))){};
+BinaryGrayImage::BinaryGrayImage(int width, int height) : height(height), width(width), th(128.0), matrix(IntMatrix(height, IntArray(width))) {};
 
-BinaryGrayImage::BinaryGrayImage(int width, int height, float tth) : height(height), width(width), th(tth), matrix(IntMatrix(height, IntArray(width))){};
+BinaryGrayImage::BinaryGrayImage(int width, int height, float tth) : height(height), width(width), th(tth), matrix(IntMatrix(height, IntArray(width))) {};
 
 BinaryGrayImage::BinaryGrayImage(IntMatrix &tmatrix)
 {
@@ -204,4 +204,36 @@ void BinaryGrayImage::operator^(const BinaryGrayImage &other)
             (*this)(x, y) = (*this)(x, y) ^ other(x, y);
         }
     }
+}
+
+bool customlogic(bool x, bool y)
+{
+    if (x)
+    {
+        if (y)
+            return false;
+        return true;
+        // 1 0 = 1
+        // 1 1 = 0
+    }
+    return false;
+}
+
+BinaryGrayImage BinaryGrayImage::operator-(const BinaryGrayImage &other)
+{
+    BinaryGrayImage send(this->width, other.height, this->th);
+    /*
+    1 1 = 0
+    0 1 = 0
+    1 0 = 1
+    0 0 = 0
+    */
+    for (int x = 0; x < this->width; x++)
+    {
+        for (int y = 0; y < this->height; y++)
+        {
+            send(x, y) = customlogic((*this)(x, y), other(x, y));
+        }
+    }
+    return send;
 }
