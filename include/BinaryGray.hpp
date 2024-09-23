@@ -37,14 +37,6 @@ public:
 
     void exportimg(ColorImage &img);
 
-    void operator|(const BinaryGrayImage &other);
-
-    void operator&(const BinaryGrayImage &other);
-
-    void operator^(const BinaryGrayImage &other);
-
-    BinaryGrayImage operator-(const BinaryGrayImage &other);
-
     IntMatrix getMatrix() const;
 
     IntMatrix &getMatrix();
@@ -54,6 +46,8 @@ public:
     void operator&(const BinaryGrayImage &other);
 
     void operator^(const BinaryGrayImage &other);
+
+    BinaryGrayImage operator-(const BinaryGrayImage &other);
 };
 
 #endif
