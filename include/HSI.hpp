@@ -17,4 +17,14 @@ public:
     HSI();
 
     HSI(int width, int height);
+
+    HSI(const HSI &other);
+
+    HSI(ColorImage &img);
+
+    void toRGB(ColorImage &image);
+
+    hsi operator()(int x_width, int y_height) const;
+
+    hsi &operator()(int x_width, int y_height);
 };
