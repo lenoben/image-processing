@@ -87,3 +87,41 @@ std::tuple<double, double, double> HSI::_HSItoRGB_(double h, double s, double i)
 HSI::HSI() {};
 
 HSI::HSI(int width, int height) : width(width), height(height), matrix(HsiMatrix(height, HsiArray(width))) {};
+
+HSI::HSI(const HSI &other) : width(other.width), height(other.height), matrix(other.matrix) {};
+
+HSI::HSI(ColorImage &img) : width(img.GetWidth()), height(img.GetHeight())
+{
+    matrix = HsiMatrix(height, HsiArray(width));
+    for (int x = 0; x < img.GetWidth(); x++)
+    {
+        for (int y = 0; y < img.GetHeight(); y++)
+        {
+            std::tie((*this)(x, y).h, (*this)(x, y).s, (*this)(x, y).i) = _RGBtoHSI_(img(x, y).r, img(x, y).g, img(x, y).b);
+        }
+    }
+};
+
+void HSI::toRGB(ColorImage &image)
+{
+    ColorImage img(width, height);
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            std::tie(img(x, y).r, img(x, y).g, img(x, y).b) = _HSItoRGB_((*this)(x, y).h, (*this)(x, y).s, (*this)(x, y).i);
+        }
+    }
+
+    image = img;
+}
+
+hsi HSI::operator()(int x_width, int y_height) const
+{
+    return matrix[y_height][x_width];
+}
+
+hsi &HSI::operator()(int x_width, int y_height)
+{
+    return matrix[y_height][x_width];
+}
