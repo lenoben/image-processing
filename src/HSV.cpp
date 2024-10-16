@@ -91,11 +91,11 @@ std::tuple<double, double, double> HSV::_HSVtoRGB_(double h, double s, double v)
     return std::make_tuple(r, g, b);
 }
 
-HSV::HSV(){};
+HSV::HSV() {};
 
-HSV::HSV(int width, int height) : width(width), height(height), matrix(HsvMatrix(height, HsvArray(width))){};
+HSV::HSV(int width, int height) : width(width), height(height), matrix(HsvMatrix(height, HsvArray(width))) {};
 
-HSV::HSV(const HSV &other) : width(other.width), height(other.height), matrix(other.matrix){};
+HSV::HSV(const HSV &other) : width(other.width), height(other.height), matrix(other.matrix) {};
 
 HSV::HSV(ColorImage &img) : width(img.GetWidth()), height(img.GetHeight())
 {
@@ -167,6 +167,7 @@ void HSV::rotateV(float angle)
 
 void HSV::applyThreshold(BinaryGrayImage &img, double hmax, double hmin, double smax, double smin, double vmax, double vmin)
 {
+    // TODO: error handling for when this.matrix is empty
     BinaryGrayImage out(width, height);
     for (int x = 0; x < width; x++)
     {
