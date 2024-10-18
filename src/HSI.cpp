@@ -125,3 +125,56 @@ hsi &HSI::operator()(int x_width, int y_height)
 {
     return matrix[y_height][x_width];
 }
+
+void HSI::rotateH(float angle)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y).h = fmod((*this)(x, y).h + angle, 360.0);
+        }
+    }
+}
+
+void HSI::rotateS(float angle)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y).s = fmod((*this)(x, y).s + angle, 360.0);
+        }
+    }
+}
+
+void HSI::rotateI(float angle)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y).i = fmod((*this)(x, y).i + angle, 360.0);
+        }
+    }
+}
+
+void HSI::applyThreshold(BinaryGrayImage &img, double hmax, double hmin, double smax, double smin, double imax, double imin)
+{
+    BinaryGrayImage out(width, height);
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            if ((*this)(x, y).h >= hmin && (*this)(x, y).s >= smin && (*this)(x, y).i >= imin && (*this)(x, y).h <= hmax && (*this)(x, y).s <= smax && (*this)(x, y).i <= imax)
+            {
+                out(x, y) = 1;
+            }
+            else
+            {
+                out(x, y) = 0;
+            }
+        }
+    }
+    img = out;
+}

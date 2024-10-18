@@ -27,4 +27,12 @@ public:
     hsi operator()(int x_width, int y_height) const;
 
     hsi &operator()(int x_width, int y_height);
+
+    void rotateH(float angle);
+
+    void rotateS(float angle);
+
+    void rotateI(float angle);
+
+    void applyThreshold(BinaryGrayImage &img, double hmax, double hmin, double smax, double smin, double imax, double imin);
 };
