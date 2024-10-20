@@ -371,4 +371,22 @@ void edgeTrackingByHysteresis(GrayscaleImage &image)
     }
 }
 
-GrayscaleImage cannyEdgeDetection(const GrayscaleImage &image, int lowThreshold, int highThreshold);
+GrayscaleImage cannyEdgeDetection(const GrayscaleImage &image, int lowThreshold, int highThreshold)
+{
+    // Step 1: Gaussian Blur
+    GrayscaleImage blurredImage = simpleGaussianBlur(image);
+
+    // Step 2: Compute Gradients
+    Gradient gradients = sobel(blurredImage);
+
+    // Step 3: Non-Maximum Suppression
+    GrayscaleImage suppressedImage = nonMaximumSuppression(gradients.magnitude, gradients.direction);
+
+    // Step 4: Double Thresholding
+    GrayscaleImage thresholdedImage = doubleThreshold(suppressedImage, lowThreshold, highThreshold);
+
+    // Step 5: Edge Tracking by Hysteresis
+    edgeTrackingByHysteresis(thresholdedImage);
+
+    return thresholdedImage;
+}

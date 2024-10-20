@@ -10,11 +10,11 @@ struct Gradient
 
 GrayscaleImage meanBlur(const GrayscaleImage &img);
 
-Matrix getGaussianKernel(int size, double sigma);
+Matrix getGaussianKernel(int size = 5, double sigma = 1.0);
 
 void applyKernel(const GrayscaleImage &image, Matrix &mkernel, GrayscaleImage &output);
 
-GrayscaleImage applyGaussian(const GrayscaleImage &image, int size, double sigma);
+GrayscaleImage applyGaussian(const GrayscaleImage &image, int size = 3, double sigma = 1.0);
 
 GrayscaleImage robertsCross(const GrayscaleImage &image);
 
@@ -30,4 +30,4 @@ GrayscaleImage doubleThreshold(const GrayscaleImage &image, int lowThreshold, in
 
 void edgeTrackingByHysteresis(GrayscaleImage &image);
 
-GrayscaleImage cannyEdgeDetection(const GrayscaleImage &image, int lowThreshold, int highThreshold);
+GrayscaleImage cannyEdgeDetection(const GrayscaleImage &image, int lowThreshold = 50, int highThreshold = 150);
