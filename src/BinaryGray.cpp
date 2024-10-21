@@ -237,3 +237,19 @@ BinaryGrayImage BinaryGrayImage::operator-(const BinaryGrayImage &other)
     }
     return send;
 }
+
+void BinaryGrayImage::printMatrix()
+{
+    if (this->height < 1 || this->width < 1)
+        std::cout << "Cant print matrix a dimension is less than 1" << std::endl;
+
+    for (const auto &row : this->matrix)
+    {
+        for (const auto &elem : row)
+        {
+            std::cout << (elem ? "[X]" : "[ ]") << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
