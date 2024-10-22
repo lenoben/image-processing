@@ -253,3 +253,22 @@ void BinaryGrayImage::printMatrix()
     }
     std::cout << std::endl;
 }
+
+void BinaryGrayImage::clear()
+{
+    width = 0;
+    height = 0;
+    th = 0.0;
+    matrix = IntMatrix();
+}
+
+void BinaryGrayImage::setAll(bool boolean)
+{
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            (*this)(x, y) = boolean;
+        }
+    }
+}

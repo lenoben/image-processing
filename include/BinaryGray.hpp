@@ -94,6 +94,19 @@ public:
     BinaryGrayImage operator-(const BinaryGrayImage &other);
 
     void printMatrix();
+
+    /**
+     * @brief clears everything in the class even threshold is set to 0
+     *
+     */
+    void clear();
+
+    /**
+     * @brief Set the All object to the boolean or int value set for it
+     *
+     * @param boolean
+     */
+    void setAll(bool boolean);
 };
 
 #endif
