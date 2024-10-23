@@ -107,6 +107,9 @@ public:
      * @param boolean
      */
     void setAll(bool boolean);
+
+    // must be 2 larger
+    void enlarge(int nwidth, int nheight);
 };
 
 #endif

@@ -272,3 +272,29 @@ void BinaryGrayImage::setAll(bool boolean)
         }
     }
 }
+
+void BinaryGrayImage::enlarge(int nwidth, int nheight)
+{
+    if (!(nwidth > width && nheight > height))
+    {
+        // TODO: implement error handling
+        return;
+    }
+
+    BinaryGrayImage ngray(nwidth, nheight);
+    ngray.setAll(false);
+
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            ngray(
+                (x + (int)(nwidth - width) / 2),
+                (y + (int)(nheight - height) / 2)) = (*this)(x, y);
+        }
+    }
+
+    matrix = ngray.getMatrix();
+    width = nwidth;
+    height = nheight;
+}
