@@ -33,3 +33,48 @@ IntMatrix flipXY(IntMatrix Tmatrix)
 
     return Nmatrix;
 }
+
+BinaryGrayImage Dilation(const BinaryGrayImage &img, IntMatrix kernel)
+{
+    int radius = (kernel.size() - 1) / 2;
+    if (radius == 0)
+    {
+        throw std::runtime_error("dilation kernel is 2x2");
+    }
+
+    BinaryGrayImage dilate(img.width + (radius * 2), img.height + (radius * 2));
+    dilate.setAll(false);
+    BinaryGrayImage copy = img;
+    copy.enlarge(dilate.width, dilate.height);
+    BinaryGrayImage dcopy = copy;
+    dcopy.enlarge(dilate.width + (radius * 2), dilate.height + (radius * 2));
+
+    int my = 0;
+    for (int y = 0; y < img.height + (radius * 2); y++)
+    {
+        int mx = 0;
+        for (int x = 0; x < img.width + (radius * 2); x++)
+        {
+            int copyx = x + radius;
+            int copyy = y + radius;
+
+            /**/
+            bool logic = false;
+            int yy = -radius;
+            for (int yk = 0; yk < kernel.size(); yk++)
+            {
+                int xx = -radius;
+                for (int xk = 0; xk < kernel[0].size(); xk++)
+                {
+                    logic |= kernel[yk][xk] & dcopy(copyx + xx, copyy + yy);
+                    xx++;
+                }
+                yy++;
+            }
+            dilate(mx, my) = logic;
+            mx++;
+        }
+        my++;
+    }
+    return dilate;
+}
