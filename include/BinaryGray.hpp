@@ -110,6 +110,13 @@ public:
 
     // must be 2 larger
     void enlarge(int nwidth, int nheight);
+
+    /**
+     * @brief shrinks the matrix using the distance from the center of the kernel passed to it
+     *
+     * @param kernel
+     */
+    void shrink(IntMatrix &kernel);
 };
 
 #endif

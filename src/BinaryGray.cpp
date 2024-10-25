@@ -298,3 +298,27 @@ void BinaryGrayImage::enlarge(int nwidth, int nheight)
     width = nwidth;
     height = nheight;
 }
+
+void BinaryGrayImage::shrink(IntMatrix &kernel)
+{
+
+    int radius = (kernel.size() - 1) / 2;
+    BinaryGrayImage nshrink(width - (radius * 2), height - (radius));
+
+    int ny = 0;
+    int nx = 0;
+    for (int x = radius; x < width - radius; x++)
+    {
+        for (int y = radius; y < height - radius; y++)
+        {
+            nshrink(nx, ny) = (*this)(x, y);
+            ny++;
+        }
+        ny = 0;
+        nx++;
+    }
+
+    matrix = nshrink.getMatrix();
+    width = width - radius * 2;
+    height = height - radius * 2;
+}
