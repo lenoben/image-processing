@@ -78,3 +78,67 @@ BinaryGrayImage Dilation(const BinaryGrayImage &img, IntMatrix kernel)
     }
     return dilate;
 }
+
+bool erods(bool kernel, bool img)
+{
+    if (kernel)
+    {
+        return img;
+    }
+    return false;
+}
+
+BinaryGrayImage Erosion(const BinaryGrayImage &img, IntMatrix kernel)
+{
+    int radius = (kernel.size() - 1) / 2;
+    if (radius == 0)
+    {
+        throw std::runtime_error("dilation kernel is 2x2");
+    }
+
+    int truenum = 0;
+    for (const auto &row : kernel)
+    {
+        for (const auto &cell : row)
+        {
+            truenum += cell;
+        }
+    }
+
+    BinaryGrayImage erode(img.width, img.height);
+    erode.setAll(0);
+    BinaryGrayImage dcopy = img;
+    dcopy.enlarge(img.width + (radius * 2), img.height + (radius * 2));
+
+    int my = 0;
+    for (int y = 0; y < dcopy.height - (radius * 2); y++)
+    {
+        int mx = 0;
+        for (int x = 0; x < dcopy.width - (radius * 2); x++)
+        {
+            int copyx = x + radius;
+            int copyy = y + radius;
+
+            int logic = 0;
+            int yy = -radius;
+            for (int yk = 0; yk < kernel.size(); yk++)
+            {
+                int xx = -radius;
+                for (int xk = 0; xk < kernel[0].size(); xk++)
+                {
+                    logic += erods(kernel[yk][xk], dcopy(copyx + xx, copyy + yy));
+                    xx++;
+                }
+                yy++;
+            }
+            erode(mx, my) = (logic == truenum) ? 1 : 0;
+            mx++;
+        }
+        // std::cout << std::endl;
+        my++;
+    }
+    return erode;
+}
+
+// closing dilation + erosion
+// opening erosion + dilation
