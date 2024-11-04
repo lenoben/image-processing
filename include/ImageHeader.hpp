@@ -73,4 +73,15 @@ struct hsl
 typedef std::vector<hsl> HslArray;
 typedef std::vector<HslArray> HslMatrix;
 
+// x and y
+typedef std::pair<int, int> pixelcoordinate;
+// label with pixels x and y
+typedef std::pair<int, pixelcoordinate> label_und_pixel;
+
+struct Moments
+{
+    double M00 = 0.0;
+    double M10 = 0.0;
+    double M01 = 0.0;
+};
 #endif
