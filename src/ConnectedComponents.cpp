@@ -56,3 +56,55 @@ int checkinside(pixelcoordinate pc, std::vector<label_und_pixel> &lup)
     }
     return 0;
 }
+void moore_rasterscan(const BinaryGrayImage &img, std::vector<label_und_pixel> &labels, UnionFind &uf, int &label)
+{
+    for (int y = 0; y < img.height; y++)
+    {
+        for (int x = 0; x < img.width; x++)
+        {
+            if (!img(x, y))
+                continue;
+
+            pixelcoordinate pc = {x, y};
+            std::vector<int> neighbors;
+
+            // Check 8-connectivity neighbors
+            if (checkboundary(x - 1, img.width))
+                neighbors.push_back(checkinside({x - 1, y}, labels)); // Left
+            if (checkboundary(y - 1, img.height))
+                neighbors.push_back(checkinside({x, y - 1}, labels)); // Top
+            if (checkboundary(x - 1, img.width) && checkboundary(y - 1, img.height))
+                neighbors.push_back(checkinside({x - 1, y - 1}, labels)); // Top-left
+            if (checkboundary(x + 1, img.width) && checkboundary(y - 1, img.height))
+                neighbors.push_back(checkinside({x + 1, y - 1}, labels)); // Top-right
+            if (checkboundary(x + 1, img.width))
+                neighbors.push_back(checkinside({x + 1, y}, labels)); // Right
+            if (checkboundary(y + 1, img.height))
+                neighbors.push_back(checkinside({x, y + 1}, labels)); // Bottom
+            if (checkboundary(x - 1, img.width) && checkboundary(y + 1, img.height))
+                neighbors.push_back(checkinside({x - 1, y + 1}, labels)); // Bottom-left
+            if (checkboundary(x + 1, img.width) && checkboundary(y + 1, img.height))
+                neighbors.push_back(checkinside({x + 1, y + 1}, labels)); // Bottom-right
+
+            // Filter out zeroes (background)
+            neighbors.erase(std::remove(neighbors.begin(), neighbors.end(), 0), neighbors.end());
+
+            if (neighbors.empty())
+            {
+                labels.push_back({label, pc});
+                label++;
+            }
+            else
+            {
+                int minLabel = *std::min_element(neighbors.begin(), neighbors.end());
+                labels.push_back({minLabel, pc});
+
+                // Unite all neighbor labels
+                for (int neighborLabel : neighbors)
+                {
+                    uf.unite(minLabel, neighborLabel);
+                }
+            }
+        }
+    }
+}
