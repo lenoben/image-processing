@@ -108,3 +108,32 @@ void moore_rasterscan(const BinaryGrayImage &img, std::vector<label_und_pixel> &
         }
     }
 }
+
+BinaryGrayImage moore_secondRasterscan(const BinaryGrayImage &img)
+{
+    int label = 1;
+    std::vector<label_und_pixel> labels;
+    UnionFind uf(img.width * img.height);
+
+    moore_rasterscan(img, labels, uf, label);
+
+    for (auto &lp : labels)
+    {
+        lp.first = uf.find(lp.first);
+    }
+
+    int number = countuniquelabel(labels);
+    std::cout << "Total number of objects is : " << number << std::endl;
+
+    BinaryGrayImage out(img.width, img.height);
+    out.setAll(0);
+
+    for (const auto &label : labels)
+    {
+        out(label.second.first, label.second.second) = label.first;
+    }
+
+    calculateMoments(labels);
+
+    return out;
+}
