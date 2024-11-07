@@ -56,6 +56,39 @@ int checkinside(pixelcoordinate pc, std::vector<label_und_pixel> &lup)
     }
     return 0;
 }
+
+void calculateMoments(const std::vector<label_und_pixel> &labels)
+{
+    std::unordered_map<int, Moments> momentsMap;
+
+    // Calculate raw moments
+    for (const auto &label_pixel : labels)
+    {
+        int label = label_pixel.first;
+        int x = label_pixel.second.first;
+        int y = label_pixel.second.second;
+
+        momentsMap[label].M00 += 1;
+        momentsMap[label].M10 += x;
+        momentsMap[label].M01 += y;
+    }
+
+    // Calculate and print area and centroid for each label
+    for (const auto &entry : momentsMap)
+    {
+        int label = entry.first;
+        const Moments &m = entry.second;
+
+        double area = m.M00;
+        double centroidX = m.M10 / m.M00;
+        double centroidY = m.M01 / m.M00;
+
+        std::cout << "Label: " << label << std::endl;
+        std::cout << "Area (M00): " << area << std::endl;
+        std::cout << "Centroid: (" << centroidX << ", " << centroidY << ")" << std::endl;
+    }
+}
+
 void moore_rasterscan(const BinaryGrayImage &img, std::vector<label_und_pixel> &labels, UnionFind &uf, int &label)
 {
     for (int y = 0; y < img.height; y++)

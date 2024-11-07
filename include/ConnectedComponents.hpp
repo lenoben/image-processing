@@ -19,6 +19,8 @@ bool checkboundary(int x, int xmax);
 
 int checkinside(pixelcoordinate pc, std::vector<label_und_pixel> &lup);
 
+void calculateMoments(const std::vector<label_und_pixel> &labels);
+
 void moore_rasterscan(const BinaryGrayImage &img, std::vector<label_und_pixel> &labels, UnionFind &uf, int &label);
 
 BinaryGrayImage moore_secondRasterscan(const BinaryGrayImage &img);
