@@ -89,6 +89,16 @@ void calculateMoments(const std::vector<label_und_pixel> &labels)
     }
 }
 
+int countuniquelabel(const std::vector<label_und_pixel> &lup)
+{
+    std::unordered_set<int> uniquelabels;
+    for (const auto &item : lup)
+    {
+        uniquelabels.insert(item.first);
+    }
+    return uniquelabels.size();
+}
+
 void moore_rasterscan(const BinaryGrayImage &img, std::vector<label_und_pixel> &labels, UnionFind &uf, int &label)
 {
     for (int y = 0; y < img.height; y++)
